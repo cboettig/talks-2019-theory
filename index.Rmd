@@ -52,9 +52,43 @@ class: center, top
 </div>
 
 ---
+background-image: url(../image-library/royalsociety/pensive-polarbear.jpg)
 
-# First Slide
+# Epistemic uncertainty limits our ability
+
+- *Describe*
+- *Understand*
+- *Predict*
+- *Manage*
 
 ---
 
-# Second Slide
+# Sources of Uncertainty
+
+---
+
+# Classic theory
+
+---
+
+# Knowledge from Noise?
+
+---
+
+# Limits to Prediction
+
+---
+
+# Management under uncertainty?
+
+- SDP, POMDP
+- DRL?
+
+
+--- 
+Notes:
+
+_Epistemic uncertainty limits our ability to describe, understand, predict, and manage the spatio-temporal dynamics of ecological systems.  Crucially, complex distributions underlie ecological processes at all levels of organization.  Why and how does variation arise and propagate (in space, time, among individuals) and how much variation do we expect? A deeper understanding of ecological variation will help to identify the limits and the uncertainties of ecological predictions.  How can information theoretic approaches be used effectively to glean knowledge from noisy and limited data?_
+
+- See figures from noise phenomena paper and nimbios talk
+
