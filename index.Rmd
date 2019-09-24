@@ -1,0 +1,60 @@
+---
+author: "Carl Boettiger"
+institute: "UC Berkeley"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: ["default", "solarized-light.css"]
+    lib_dir: libs
+    seal: false
+    nature:
+      highlightStyle: "solarized-light"
+      highlightLines: true
+      countIncrementalSlides: false
+      slideNumberFormat: "%current%"
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(#dev.args=list(bg="transparent"), 
+                      echo = FALSE, 
+                      message=FALSE, 
+                      warning=FALSE,
+                      fig.width=11, 
+                      fig.height=6.5, 
+                      cache = TRUE)
+
+library(tidyverse)
+library(ggthemes)
+theme_set(theme_solarized(base_size=26))
+scale_colour_discrete <- function(...) scale_colour_solarized()
+scale_fill_discrete <- function(...) scale_fill_solarized()
+pal <- solarized_pal()(3)
+
+txtcolor <- "#586e75"
+```
+
+layout: true
+background-color: #fdf6e3
+class: center, top
+
+---
+
+# Theory of uncertainty, ecological variation, and the limits of prediction
+
+
+<div class="my-footer">
+
+<a href="https://carlboettiger.info"> `r icon::fa("user")` Carl Boettiger</a> | 
+<a href="https://berkeley.edu"> `r icon::fa("briefcase")` UC Berkeley</a> | 
+<a href="https://twitter.com/cboettig"> `r icon::fa("twitter")` @cboettig</a>
+
+</div>
+
+---
+
+# First Slide
+
+---
+
+# Second Slide
