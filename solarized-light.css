@@ -154,7 +154,7 @@ body {
 }
 
 em {
-  color: #d33682;
+  color: #002b36;
 }
 
 code {
@@ -225,7 +225,7 @@ h6 {
 
 div.my-footer {
     position: absolute;
-    bottom: 5px;
+    bottom: 30px;
     left: 0px;
     height: 20px;
     width: 100%;
@@ -235,4 +235,8 @@ div.my-footer span {
     position: absolute;
     left: 15px;
     bottom: 2px;
+}
+
+ul {
+    list-style-type: none;
 }

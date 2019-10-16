@@ -4,7 +4,7 @@
     <title>index.utf8.md</title>
     <meta charset="utf-8" />
     <meta name="author" content="Carl Boettiger" />
-    <meta name="date" content="2019-09-24" />
+    <meta name="date" content="2019-10-15" />
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="solarized-light.css" type="text/css" />
@@ -34,12 +34,197 @@ class: center, top
 &lt;/div&gt;
 
 ---
+layout: false
+background-image: url(../image-library/royalsociety/pensive-polarbear.jpg)
+background-position: center
+background-size: 130%
+class: center, top
 
-# First Slide
+# Roles of Uncertainty in Ecological Theory
+
+## Noise the Nusiance
+
+## Noise as Creator
+
+## Noise as Informer
+
+---
+layout: true
+background-color: #fdf6e3
+class: center, top
 
 ---
 
-# Second Slide
+# Sources of Uncertainty
+
+## Stochasticity
+
+- demographic
+- environmental 
+- individual heterogeneity
+
+## Measurement uncertainty
+
+## Model uncertainty
+
+- parameter uncertainty
+- structural uncertainty
+
+---
+
+# Stochasticity
+
+- "Inherently stochastic"
+- _statistical mechanics_ sense and not the _quantum mechanics_ sense
+- From Kolmogrov to Kurtz
+
+---
+
+# Master equation expansion
+
+![](img/markov.png)
+
+`\begin{align}
+\frac{\mathrm{d} x }{\mathrm{d} t}  &amp;= b(x) - d(x) + \mathcal{O}(N^{-1})\\
+\frac{\mathrm{d} \sigma^2 }{\mathrm{d} t}  &amp;= 2 \partial_x  \left[ b(x)  - d(x) \right] \sigma^2 + b(x) + d(x)  + \mathcal{O}(N^{-\tfrac{1}{2}}) \label{vanKampen}
+\end{align}`
+
+---
+
+# Scaling in Demographic vs Environmental noise
+
+![](index_files/figure-html/unnamed-chunk-1-1.png)&lt;!-- --&gt;
+
+---
+
+# Stochastic Phenomena
+
+- Persistence / co-existence
+- Stochastic resonance &amp; quasi-cycles
+- Stochastic switching
+
+---
+
+# Stochastic Phenomena: Quasi-cycles
+
+![](index_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+
+
+---
+
+# Stochastic Phenomena: Quasi-cycles
+![](index_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+
+---
+
+# Stochastic Phenomena: Noisy switch
+
+
+`$$X_{t+1} = X_t + \underbrace{X_t r \left(1 -\frac{X_t}{K} \right)}_{\textrm{ growth, } g(X_t)}  - \underbrace{\frac{a X_t ^ Q}{X_t^ Q + H ^ Q}}_{\textrm{consumption, } c(X_t)} + \xi_t,$$`
+
+---
+
+# Stochastic Phenomena: Noisy switch
+
+
+
+
+
+![](index_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+
+Data on prevelance of rubella in Copenhagen illustrating potential stochastic 
+switching dynamics between two regimes, reproduced from Keeling et al 2001
+
+---
+
+# Stochastic Phenomena: Noisy switch
+
+
+![](index_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+
+---
+
+# Stochastic Phenomena: Noisy switch
+
+
+
+![](index_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+
+
+---
+
+# Stochastic Phenomena: Noisy switch
+
+
+![](index_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+
+
+
+---
+
+# Knowledge from Noise?
+
+---
+
+
+# Knowledge from Noise?
+
+## Early Warning Signals
+
+
+![](index_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
+![](index_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+
+![](index_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+
+![](index_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+
+
+---
+
+
+# Knowledge from Noise?
+
+## Noise partitioning, mechanism, and transients
+
+
+---
+
+# Limits to Prediction
+
+---
+
+# Management under uncertainty?
+
+## Sequential Decision Problems
+
+---
+
+
+# Management under uncertainty: A Fisheries Example
+
+---
+
+# Consequences of Stochasticity &amp; Imperfect Information
+
+- Reed
+- Clark
+- Sethi
+- POMDP
+
+
+---
+
+# Adaptive Management / Reinforcement Learning
+
+--- 
+Notes:
+
+_Epistemic uncertainty limits our ability to describe, understand, predict, and manage the spatio-temporal dynamics of ecological systems.  Crucially, complex distributions underlie ecological processes at all levels of organization.  Why and how does variation arise and propagate (in space, time, among individuals) and how much variation do we expect? A deeper understanding of ecological variation will help to identify the limits and the uncertainties of ecological predictions.  How can information theoretic approaches be used effectively to glean knowledge from noisy and limited data?_
+
+- See figures from noise phenomena paper and nimbios talk
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
@@ -87,7 +272,24 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
     deleted = true;
   });
-})();</script>
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
 
 <script>
 (function() {
