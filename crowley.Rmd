@@ -11,34 +11,47 @@ library(adaptivetau)
 
 
 ```{r}
-demographic <- function(state, p, t) {
-  c(params$bx * state[["x"]] * (p$N - state[["x"]] - state[["y"]]), # x birth rate
-    params$dx * state[["x"]],                                 # x death rate
-    params$c * state[["x"]] * state[["y"]], # competition
-    params$by * state[["y"]] * (p$N - state[["x"]] - state[["y"]]), # y birth rate
-    params$dy * state[["y"]]                                # y death rate
+dem_rates <- function(s, p, t) {
+  x <- s[["x"]] / p$N
+  y <- s[["y"]] / p$N
+  
+  c(p$bx * x * (1 - x - y),     # x birth rate
+    p$dx * x,                   # x death rate
+    p$c * x * y,                # competition
+    p$by * y * (1 - x - y),     # y birth rate
+    p$dy * y                    # y death rate
   )
 }
 
 
-environmental <- function(s, p, t) {
-  c(params$bx * s[["x"]] * max(p$N - s[["x"]] - s[["y"]], 0), # x birth rate
-    params$dx * s[["x"]],                                 # x death rate
-    params$c * s[["x"]] * s[["y"]], # competition
-    params$by * s[["y"]] * max(p$N - s[["y"]], 0), # y birth rate
-    params$dy * s[["y"]]                                # y death rate
+env_rates <- function(s, p, t) {
+  
+  x <- s[["x"]] / p$N
+  y <- s[["y"]] / p$N
+  
+  c(p$bx * x * max(1 - x - y, 0), # x birth rate
+    p$dx * x,                                 # x death rate
+    p$c * x * y, # competition
+    p$by * y * max(1/2 - y, 0), # y birth rate
+    p$dy * y                               # y death rate
   )
 }
 
-rates <- environmental
 ```
 
 
 ```{r}
-# indicate state variable and the change
-transitions = list(c(x = +1), # x colonizes new patch
+dem_transitions  = list(c(x = +1), # x colonizes new patch
                    c(x = -1), # x death event
-                   c(x = +1, y = 0), # a two-step process, x replaces y
+                   c(x =  +1, y = -1), # a two-step process, x replaces y
+                   c(y = +1), # y colonizes a new patch
+                   c(y = -1) # y death event
+                   )
+
+# indicate state variable and the change
+env_transitions = list(c(x = +1), # x colonizes new patch
+                   c(x = -1), # x death event
+                   c(x =  0, y = 0), # a two-step process, x replaces y
                    c(y = +1), # y colonizes a new patch
                    c(y = -1) # y death event
                    )
@@ -49,31 +62,74 @@ transitions = list(c(x = +1), # x colonizes new patch
 
 
 ```{r}
-#set.seed(1234) # set random number generator seed to be reproducible
 N <- 100
-params <- list(bx = 0.2/N, by = 0.6/N, dx = 0.1/N ,
-               dy = 0.1/N, c=0.1/N^2, N=N)
-
-## Much more "environmental" noise
-#params <- list(bx = 0.2/N, by = 0.11/N, dx = 0.1/N ,  dy = 0.1/N, c=0.1/N^2, N=N)
+params <- list(bx = 0.2, by = 0.5, dx = 0.1,dy = 0.1, c=0.1, N=N)
 inits = c(x = 20, y = 20)
 
-# Run simulation 
+```
+
+```{r}
+set.seed(1234) # set random number generator seed to be reproducible
 sim <- 
-  adaptivetau::ssa.exact(inits,
-                       transitions, 
-                       rates,
+  adaptivetau::ssa.exact(c(x = 20, y = 0),
+                       env_transitions, 
+                       env_rates,
                        params,
-                       tf=1e4) 
+                       tf=2e4) 
 ```
 
 ```{r}
 sim %>% 
   as_tibble() %>%
-  #sample_n(1e3) %>% ## avoid plotting too many points
+  sample_n(1e3) %>% ## avoid plotting too many points
   gather(species, population, -time) %>% 
  ggplot(aes(time, population, col = species)) + geom_line()
 ```
+
+
+
+
+```{r}
+set.seed(1234) # set random number generator seed to be reproducible
+sim2 <- 
+  adaptivetau::ssa.exact(inits,
+                       env_transitions, 
+                       env_rates,
+                       params,
+                       tf=2e4) 
+```
+
+```{r}
+sim2 %>% 
+  as_tibble() %>%
+  sample_n(1e3) %>% ## avoid plotting too many points
+  gather(species, population, -time) %>% 
+ ggplot(aes(time, population, col = species)) + geom_line()
+```
+
+
+
+```{r}
+set.seed(1234) # set random number generator seed to be reproducible
+sim3 <- 
+  adaptivetau::ssa.exact(inits,
+                       dem_transitions, 
+                       dem_rates,
+                       params,
+                       tf=2e4) 
+```
+
+```{r}
+sim3 %>% 
+  as_tibble() %>%
+  sample_n(1e3) %>% ## avoid plotting too many points
+  gather(species, population, -time) %>% 
+ ggplot(aes(time, population, col = species)) + geom_line()
+```
+
+
+We can express the variance observed in species `x` in terms of the contribution from 
+
 
 
 
