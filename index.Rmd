@@ -91,17 +91,68 @@ class: center, top
 
 ---
 
-# Stochasticity
+# What is noise?
 
 - "Inherently stochastic"
+
+-- 
+
 - _statistical mechanics_ sense and not the _quantum mechanics_ sense
-- From Kolmogrov to Kurtz
+
+
+---
+
+# Uncertainty summarizes complexity
+
+--- 
+
+# The canonical model
+
+
+\begin{equation}
+\textrm{d} N_t = \underbrace{f(N_t) \textrm{d} t}_{\textrm{det skeleton}} + \underbrace{\sigma_d \sqrt{N_t} \phantom{\cdot}\textrm{d}B_t^{(d)} }_{\textrm{demographic noise}} + \underbrace{\sigma_e N_t \phantom{\cdot}\textrm{d}B_t^{(e)}}_{\textrm{environmental noise}} 
+\label{canonical}
+\end{equation}
 
 ---
 
 # Master equation expansion
 
 ![](img/markov.png)
+
+## Levins model
+
+
+\begin{align}
+b_n =& c n \left(1 - \frac{n}{N}\right) \\
+d_n =& e_t n
+\end{align}
+
+---
+
+## Levins model
+
+
+$$n = x N + \xi N^{1/2}$$
+
+
+\begin{align}
+\frac{\mathrm{d} x}{\mathrm{d} t} =& \underbrace{ c x \left(1 - x\right) }_{\textrm{ birth rate}} - \underbrace{e n}_{\textrm{ death rate}} \\
+\frac{\mathrm{d} \xi}{\mathrm{d} t} = 
+\end{align}
+
+
+---
+
+
+\begin{align}
+\frac{\mathrm{d} n}{\mathrm{d} t} = \underbrace{ c n \left(1 - \frac{n}{N}\right) }_{b_n, \textrm{ birth rate}} - \underbrace{e n}_{d_n, \textrm{ death rate}} \label{levins}
+\end{align}
+
+
+
+---
+
 
 \begin{align}
 \frac{\mathrm{d} x }{\mathrm{d} t}  &= b(x) - d(x) + \mathcal{O}(N^{-1})\\
@@ -122,6 +173,11 @@ read_csv("data/gillespie.csv", col_types = "cdiddd")  %>%
   geom_line(aes(y = n), col=pal[1]) +
   facet_wrap(~system_size, scales = "free_y")
 ```
+
+---
+
+# Scaling in Demographic vs Environmental noise
+
 
 ---
 

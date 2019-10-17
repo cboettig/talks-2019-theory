@@ -130,6 +130,40 @@ sim3 %>%
 
 We can express the variance observed in species `x` in terms of the contribution from 
 
+```{r}
+pop <- params$N
+crowley_parameters <- c(b1=params$bx, b2=params$by, 
+							d1=params$dx, d2=params$dy, c1=params$c, 
+							c2=params$c, K=params$N)
+
+	times <- seq(0,200,length=50)
+	Xo <- inits
+	#ibm <- crowley_ibm(Xo = Xo, parameters=crowley_parameters, times=times,reps=20)
+
+	crowley_sim <- linear_noise_approx(
+				inits, times, crowley_parameters, 
+				b_crowley, d_crowley, J_crowley,
+				T_crowley, Omega=pop)
+
+	colnames(crowley_sim) <- c("time", "x", "y", "var_x", "var_y", "cov")
+	crowley_sim <- as_tibble(crowley_sim)
+	
+```
+
+```{r}
+crowley_sim %>% ggplot(aes(time)) + 
+  geom_ribbon(aes(y = x, ymin = x - sqrt(var_x), ymax = x + sqrt(var_x), fill="x"), alpha = 0.5) +
+  geom_line(aes(y = x, col = "x")) + 
+  geom_ribbon(aes(y = y, ymin = y - sqrt(var_y), ymax = y + sqrt(var_y), fill="y"), alpha = 0.5) +
+  geom_line(aes(y =y, col="y")) + 
+  geom_line(aes(time, population, col = species), data = sim3)
+```
+
+```{r}
+crowley_sim %>% select(-cov) %>% 
+gather(variable, value, -time) %>% ggplot(aes(time, value, col=variable)) + geom_line()
+```
+
 
 
 
