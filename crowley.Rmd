@@ -1,0 +1,67 @@
+---
+output: github_document
+---
+
+```{r setup}
+library(tidyverse)
+library(adaptivetau)
+```
+
+
+
+```{r}
+# indicate state variable and the change
+transitions = list(c(x = +1), # x colonizes new patch
+                   c(x = -1), # x death event
+                   c(x = +1, y = -1), # a two-step process, x replaces y
+                   c(y = +1), # y colonizes a new patch
+                   c(y = -1) # y death event
+                   )
+
+```
+
+
+
+
+
+```{r}
+rates <- function(state, p, t) {
+  c(params$bx * state[["x"]] * (p$N - state[["x"]] - state[["y"]]), # x birth rate
+    params$dx * state[["x"]],                                 # x death rate
+    params$c * state[["x"]] * state[["y"]], # competition
+    params$by * state[["y"]] * (p$N - state[["x"]] - state[["y"]]), # y birth rate
+    params$dy * state[["y"]]                                # y death rate
+  )
+}
+```
+
+
+```{r}
+#set.seed(1234) # set random number generator seed to be reproducible
+N <- 100
+params <- list(bx = 0.2/N, by = 0.6/N, dx = 0.1/N ,
+               dy = 0.1/N, c=0.1/N^2, N=N)
+inits = c(x = 20, y = 20)
+
+# Run simulation 
+sim <- 
+  adaptivetau::ssa.exact(inits,
+                       transitions, 
+                       rates,
+                       params,
+                       tf=1e6) 
+```
+
+```{r}
+sim %>% 
+  as_tibble() %>%
+  sample_n(1e3) %>% ## avoid plotting too many points
+  gather(species, population, -time) %>% 
+ ggplot(aes(time, population, col = species)) + geom_line()
+```
+
+
+
+```{r}
+```
+
