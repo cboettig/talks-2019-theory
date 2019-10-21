@@ -1,0 +1,117 @@
+---
+layout: false
+background-image: url(../image-library/royalsociety/pensive-polarbear.jpg)
+background-position: center
+background-size: 130%
+class: center, top
+
+---
+
+# Sources of Uncertainty
+
+## Stochasticity
+
+### Demographic / intrinsic
+### Environmental / extrinisic
+### Individual heterogeneity
+
+## Model uncertainty
+
+### Parameter uncertainty
+### Structural uncertainty
+
+## Measurement uncertainty
+
+
+---
+
+# What is noise?
+
+- "Inherently stochastic"
+
+-- 
+
+- _statistical mechanics_ sense and not the _quantum mechanics_ sense
+
+
+---
+
+# Uncertainty summarizes complexity
+
+--- 
+
+# The canonical model
+
+
+\begin{equation}
+\textrm{d} N_t = \underbrace{f(N_t) \textrm{d} t}_{\textrm{det skeleton}} + \underbrace{\sigma_d \sqrt{N_t} \phantom{\cdot}\textrm{d}B_t^{(d)} }_{\textrm{demographic noise}} + \underbrace{\sigma_e N_t \phantom{\cdot}\textrm{d}B_t^{(e)}}_{\textrm{environmental noise}} 
+\label{canonical}
+\end{equation}
+
+---
+
+# Master equation expansion
+
+![](img/markov.png)
+
+## Levins model
+
+
+\begin{align}
+b_n =& c n \left(1 - \frac{n}{N}\right) \\
+d_n =& e_t n
+\end{align}
+
+---
+
+## Levins model
+
+
+$$n = x N + \xi N^{1/2}$$
+
+
+\begin{align}
+\frac{\mathrm{d} x}{\mathrm{d} t} =& \underbrace{ c x \left(1 - x\right) }_{\textrm{ birth rate}} - \underbrace{e n}_{\textrm{ death rate}} \\
+\frac{\mathrm{d} \xi}{\mathrm{d} t} = 
+\end{align}
+
+
+---
+
+
+\begin{align}
+\frac{\mathrm{d} n}{\mathrm{d} t} = \underbrace{ c n \left(1 - \frac{n}{N}\right) }_{b_n, \textrm{ birth rate}} - \underbrace{e n}_{d_n, \textrm{ death rate}} \label{levins}
+\end{align}
+
+
+
+---
+
+
+\begin{align}
+\frac{\mathrm{d} x }{\mathrm{d} t}  &= b(x) - d(x) + \mathcal{O}(N^{-1})\\
+\frac{\mathrm{d} \sigma^2 }{\mathrm{d} t}  &= 2 \partial_x  \left[ b(x)  - d(x) \right] \sigma^2 + b(x) + d(x)  + \mathcal{O}(N^{-\tfrac{1}{2}}) \label{vanKampen}
+\end{align}
+
+---
+
+# Scaling in Demographic vs Environmental noise
+
+```{r}
+read_csv("data/gillespie.csv", col_types = "cdiddd")  %>% 
+  mutate(system_size = recode(system_size, large = "A. 1000 total sites", small= "B. 100 total sites")) %>%
+  ggplot(aes(x = time)) + 
+  geom_hline(aes(yintercept = mean), lty=2, col=pal[2]) + 
+  geom_hline(aes(yintercept = minus_sd), lty=2, col=pal[2]) + 
+  geom_hline(aes(yintercept = plus_sd), lty=2, col=pal[2]) + 
+  geom_line(aes(y = n), col=pal[1]) +
+  facet_wrap(~system_size, scales = "free_y")
+```
+
+---
+
+# Scaling in Demographic vs Environmental noise
+
+
+---
+

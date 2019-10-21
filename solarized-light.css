@@ -154,7 +154,9 @@ body {
 }
 
 em {
-  color: #002b36;
+  font-weight: bold;
+  font-style: normal;
+  color: #dc322f;
 }
 
 code {
