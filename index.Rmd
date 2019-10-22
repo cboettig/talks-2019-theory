@@ -40,6 +40,7 @@ background-color: #fdf6e3
 class: center, top
 
 ---
+class: middle
 
 # Theory of uncertainty, ecological variation, and the limits of prediction
 
@@ -52,25 +53,17 @@ class: center, top
 
 </div>
 
----
-
-# Noise the Nusiance
-
-# Stochastic Phenomena
-
-# Noise as Information
-
-# Decisions Under Uncertainty
-
----
-
-
 
 ---
 layout: false
 background-image: url(../image-library/royalsociety/pensive-polarbear.jpg)
 background-position: center
 background-size: 130%
+class: center, top
+
+---
+layout: true
+background-color: #fdf6e3
 class: center, top
 
 ---
@@ -99,13 +92,6 @@ class: center, top
 
 ---
 
-layout: true
-background-color: #fdf6e3
-class: center, top
-
-
----
-
 # *Noise the Nusiance*
 
 # Stochastic Phenomena
@@ -124,7 +110,7 @@ class: center, top
 \label{canonical}
 \end{equation}
 
-- (e.g. Lande et al 1993)
+- (e.g. Lande 1993, Foley 1994, etc)
 - rough jusification in Kurtz 1970, 1973, 1978
 - Deterministic skeleton -> expected dynamics
 
@@ -156,13 +142,13 @@ read_csv("data/quasicycles.csv") %>%
   scale_color_solarized() +
   theme(legend.position = "none")
 ```
-
+Nisbet & Gurney 1976
 
 ---
 
 # Stochastic Phenomena: Quasi-cycles
 ```{r}
-img <- image_read("img/resonance-bjornstad2004.png") %>% image_transparent("white")
+img <- image_read("../image-library/published/resonance-bjornstad2004.png") %>% image_transparent("white")
 
 ggplot() + 
   annotation_raster(img, 
@@ -191,6 +177,8 @@ theory %>%
   geom_line(lwd = 2) + 
   labs(x = bquote(X[t]), y = bquote(X[t+1])) 
 ```
+
+May 1977
 
 ---
 
@@ -225,7 +213,7 @@ read_csv("data/noisy_switch.csv")  %>%
 ---
 
 ```{r}
-img <- image_read("img/switching-keeling2001.png") %>%
+img <- image_read("../image-library/published/switching-keeling2001.png") %>%
   image_transparent("white")
 ggplot() + 
   annotation_raster(img, 
@@ -233,7 +221,7 @@ ggplot() +
                     ymin=-Inf, ymax=Inf)
 ```
 
-Data on prevelance of rubella in Copenhagen illustrating potential stochastic 
+Rubella prevelance in Copenhagen illustrating potential stochastic 
 switching dynamics between two regimes, reproduced from Keeling et al 2001
 
 
@@ -250,8 +238,32 @@ switching dynamics between two regimes, reproduced from Keeling et al 2001
 
 # Decisions Under Uncertainty
 
+---
+
+# Knowledge from Noise?
+
+## Mechanistic understanding
+
+.pull-left[
+
+Levins 1969
+
+$$\frac{d n}{d t} = \underbrace{c n \left(1 - \frac{n}{N}\right)}_{\textrm{birth}} - \underbrace{e n}_{\textrm{death}}$$
+Logistic 
+
+$$\frac{d n}{d t} = \underbrace{c n}_{\textrm{birth}} \underbrace{\left(1 - \frac{n}{N}\right)}_{\textrm{death}}$$
+
+]
+.pull-right[
+$$\sigma^2 = \frac{b(n) + d(n)}{2 \partial_n b(n) - 2\partial_n d(n)}$$
+]
+
+--
+
+Levins: \sigma^2 = N\frac{e}{c}$, Logistic: $\sigma^2 = K$
 
 ---
+
 
 
 # Knowledge from Noise?
@@ -299,14 +311,14 @@ tipping %>%
 
 ## Tipping points: empirical examples
 
-Dai et al (2015)
-
 ```{r}
-img <- image_read("img/pop-dai2015.png") %>% image_transparent("white")
+img <- image_read("../image-library/published/pop-dai2015.png") %>% image_transparent("white")
 ggplot() + 
   annotation_raster(img, 
                     xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf)
 ```
+
+Dai et al (2015)
 
 ---
 
@@ -314,13 +326,54 @@ ggplot() +
 
 
 ```{r}
-img <- image_read("img/cv-dai2015.png") %>%
+img <- image_read("../image-library/published/cv-dai2015.png") %>%
   image_transparent("white")
 
 ggplot() + 
   annotation_raster(img, 
                     xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf)
 ```
+
+Dai et al (2015)
+
+---
+
+## Critical-speeding up?
+
+
+\[ dX_t = X_t \frac{r}{\beta} \left( \frac{X_t}{\beta A} -1 \right) \left(1 - \frac{X_t}{\beta C} \right) dt + \sigma dB_t \]
+
+- Carrying capacity $C$, Allee threshold $A$
+- available territory $\beta$
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+dx <- function(x,  β = .3, r = 1, A = 1.5, C = 2.5){
+  x * (r/β) * (x / (β*A)-1)*(1 - x / (β*C))
+}
+x <- seq(-1,4, length.out = 400)
+β <- seq(0.1, 1.2, length.out = 4)
+df <- map_dfr(β, 
+               function(β) 
+                 data.frame(x = x, 
+                            dx = dx(x, β=β), 
+                            V = -cumsum(dx(x, β=β)),
+                            β=β))%>%
+  mutate(β=as.factor(round(β, digits=3)))
+
+ggplot(df, aes(x,dx, color = β)) + geom_line(lwd=1) + 
+  coord_cartesian(ylim = c(-0.3, .2), xlim = c(0,4)) 
+```
+
+[Titus et al (2019)](https://arxiv.org/abs/1901.08084)
+
+
+---
+
+# Limits of Prediction
+
+
+
 
 ---
 
@@ -335,30 +388,59 @@ ggplot() +
 
 
 ---
+layout: false
+background-image: url(../image-library/noaa/noaa_fisheries.jpg)
+background-position: center
+background-size: 130%
+class: center, top
+
+---
+layout: true
+background-color: #fdf6e3
+class: center, top
+
+---
+
+# MSY & Constant Escapement
+
+```{r msy, echo=FALSE, fig.width=8, fig.height=4.5}
+r <- 1
+K <- 100
+H <- 0
+logistic <- function(N) r * N * (1 - N / K) - H
+
+data_frame(population_size = 0:100, 
+           growth_rate = logistic(population_size)) %>%
+  ggplot(aes(population_size, growth_rate)) + 
+  geom_path(size=3, col = pal[[1]]) +
+  geom_vline(aes(xintercept = K/2), lty = "dashed", size = 2, col = pal[[2]]) +
+  xlab("population size") + ylab("growth rate")
+ 
+```
+
+
+--
+
+$$\frac{dN}{dt} = \underbrace{r N \left(1 - \frac{N}{K} \right)}_{f(N)} - H$$
+$$H_{\text{MSY}} = f(N) = r K / 4, \phantom S B_{\text{MSY}} = K/2$$
+
+Schaefer 1954; Clark 1973
+
+---
+
 
 ## Decisions Under Uncertainty: does it matter?
 
-.pull-left[
 
 ```{r}
-img <- image_read("img/noaa_tuna_net.jpg")
-ggplot() + 
-  annotation_raster(img, 
-                    xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf)
-```
-] 
-
-.pull-right[
-
-```{r}
-img <- image_read("img/Reed.png") %>% image_transparent("white")
+img <- image_read("../image-library/published/reed1979.png") %>% image_transparent("white")
 ggplot() + 
   annotation_raster(img, 
                     xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf)
 ```
 
--- Reed 1979
-]
+Reed 1979
+
 
 
 ---
@@ -367,7 +449,7 @@ ggplot() +
 
 
 ```{r}
-img <- image_read("img/Clark.png")%>% image_transparent("white")
+img <- image_read("../image-library/published/clark1987.png")%>% image_transparent("white")
 ggplot() + 
   annotation_raster(img, 
                     xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf)
@@ -381,16 +463,35 @@ Clark & Kirkwood, 1987
 
 
 ```{r}
-img <- image_read("img/Sethi.png")%>% image_transparent("white")
+img <- image_read("../image-library/published/sethi2005.png")%>% image_transparent("white")
 ggplot() + 
   annotation_raster(img, 
                     xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf)
 ```
 
+Sethi et al (2005)
 
 ---
 
-```{r}
+```{r fig.height=8}
+img <- image_read("../image-library/img/jetstream.jpg")
+p1 <- ggplot() + 
+  annotation_raster(img, 
+                    xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf)
+img <- image_read("../image-library/img/self-driving.png")
+p2 <- ggplot() + 
+  annotation_raster(img, 
+                    xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf)
+library(patchwork)
+p1 + p2 + plot_layout(ncol = 1)
+```
+
+
+
+
+---
+
+```{r fig.height=7}
 policies_w_priors <- vroom::vroom("data/policies_w_priors.csv")
 
 policies_w_priors %>% select(-harvest) %>%
@@ -405,11 +506,11 @@ policies_w_priors %>% select(-harvest) %>%
   coord_cartesian(xlim = c(0,1), ylim = c(0,.8)) 
 ```
 
-
+Memarzadeh & Boettiger (2019)
 ---
 
 
-```{r}
+```{r fig.height=9}
 vroom::vroom("data/pomdp_sims.csv", col_types = "inicnnn")  %>%
   select(-value) %>%
   #filter(method != "MSY") %>%
@@ -439,6 +540,8 @@ vroom::vroom("data/pomdp_sims.csv", col_types = "inicnnn")  %>%
 
 # Opportunities and Pitfalls
 
+---
+
 
 Relaxing structural assumptions of the model (GP, neural net, etc)
 
@@ -447,7 +550,7 @@ Relaxing structural assumptions of the model (GP, neural net, etc)
 ---
 
 
-Notes:
+Abstract:
 
 > Epistemic uncertainty limits our ability to describe, understand, predict, and manage the spatio-temporal dynamics of ecological systems.  Crucially, complex distributions underlie ecological processes at all levels of organization.  Why and how does variation arise and propagate (in space, time, among individuals) and how much variation do we expect? A deeper understanding of ecological variation will help to identify the limits and the uncertainties of ecological predictions.  How can information theoretic approaches be used effectively to glean knowledge from noisy and limited data?
 
