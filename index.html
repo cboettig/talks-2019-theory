@@ -4,7 +4,7 @@
     <title>index.utf8.md</title>
     <meta charset="utf-8" />
     <meta name="author" content="Carl Boettiger" />
-    <meta name="date" content="2019-10-21" />
+    <meta name="date" content="2019-10-22" />
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/font-awesome-5.3.1/css/fontawesome-all.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="solarized-light.css" type="text/css" />
@@ -21,6 +21,7 @@ background-color: #fdf6e3
 class: center, top
 
 ---
+class: middle
 
 # Theory of uncertainty, ecological variation, and the limits of prediction
 
@@ -33,25 +34,17 @@ class: center, top
 
 &lt;/div&gt;
 
----
-
-# Noise the Nusiance
-
-# Stochastic Phenomena
-
-# Noise as Information
-
-# Decisions Under Uncertainty
-
----
-
-
 
 ---
 layout: false
 background-image: url(../image-library/royalsociety/pensive-polarbear.jpg)
 background-position: center
 background-size: 130%
+class: center, top
+
+---
+layout: true
+background-color: #fdf6e3
 class: center, top
 
 ---
@@ -80,13 +73,6 @@ class: center, top
 
 ---
 
-layout: true
-background-color: #fdf6e3
-class: center, top
-
-
----
-
 # *Noise the Nusiance*
 
 # Stochastic Phenomena
@@ -105,7 +91,7 @@ class: center, top
 \label{canonical}
 \end{equation}`
 
-- (e.g. Lande et al 1993)
+- (e.g. Lande 1993, Foley 1994, etc)
 - rough jusification in Kurtz 1970, 1973, 1978
 - Deterministic skeleton -&gt; expected dynamics
 
@@ -125,13 +111,13 @@ class: center, top
 
 # Stochastic Phenomena: Quasi-cycles
 
-![](index_files/figure-html/unnamed-chunk-1-1.png)&lt;!-- --&gt;
-
+![](index_files/figure-html/quasicycles-1.png)&lt;!-- --&gt;
+Nisbet &amp; Gurney 1976
 
 ---
 
 # Stochastic Phenomena: Quasi-cycles
-![](index_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/bjornstad2004-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -140,7 +126,9 @@ class: center, top
 
 `$$X_{t+1} = X_t + \underbrace{X_t r \left(1 -\frac{X_t}{K} \right)}_{\textrm{ growth, } g(X_t)}  - \underbrace{\frac{a X_t ^ Q}{X_t^ Q + H ^ Q}}_{\textrm{consumption, } c(X_t)} + \xi_t,$$`
 
-![](index_files/figure-html/noisy_switch-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/noisy_switchA-1.png)&lt;!-- --&gt;
+
+May 1977
 
 ---
 
@@ -149,7 +137,7 @@ class: center, top
 
 `$$X_{t+1} = X_t + \underbrace{X_t r \left(1 -\frac{X_t}{K} \right)}_{\textrm{ growth, } g(X_t)}  - \underbrace{\frac{a X_t ^ Q}{X_t^ Q + H ^ Q}}_{\textrm{consumption, } c(X_t)} + \xi_t,$$`ß
 
-![](index_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/potential-1.png)&lt;!-- --&gt;
 
 
 
@@ -158,14 +146,14 @@ class: center, top
 # Stochastic Phenomena: Noisy switch
 
 
-![](index_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/noisy_switch-1.png)&lt;!-- --&gt;
 
 
 ---
 
-![](index_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/keeling2001-1.png)&lt;!-- --&gt;
 
-Data on prevelance of rubella in Copenhagen illustrating potential stochastic 
+Rubella prevelance in Copenhagen illustrating potential stochastic 
 switching dynamics between two regimes, reproduced from Keeling et al 2001
 
 
@@ -182,8 +170,32 @@ switching dynamics between two regimes, reproduced from Keeling et al 2001
 
 # Decisions Under Uncertainty
 
+---
+
+# Knowledge from Noise?
+
+## Mechanistic understanding
+
+.pull-left[
+
+Levins 1969
+
+`$$\frac{d n}{d t} = \underbrace{c n \left(1 - \frac{n}{N}\right)}_{\textrm{birth}} - \underbrace{e n}_{\textrm{death}}$$`
+Logistic 
+
+`$$\frac{d n}{d t} = \underbrace{c n}_{\textrm{birth}} \underbrace{\left(1 - \frac{n}{N}\right)}_{\textrm{death}}$$`
+
+]
+.pull-right[
+`$$\sigma^2 = \frac{b(n) + d(n)}{2 \partial_n b(n) - 2\partial_n d(n)}$$`
+]
+
+--
+
+Levins: \sigma^2 = N\frac{e}{c}$, Logistic: `\(\sigma^2 = K\)`
 
 ---
+
 
 
 # Knowledge from Noise?
@@ -192,26 +204,58 @@ switching dynamics between two regimes, reproduced from Keeling et al 2001
 
 
 
-![](index_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/dai_sim-1.png)&lt;!-- --&gt;
 
 ---
 
-![](index_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/dai_sim_stats-1.png)&lt;!-- --&gt;
 
 ---
 
 ## Tipping points: empirical examples
+
+![](index_files/figure-html/pop_dai2015-1.png)&lt;!-- --&gt;
 
 Dai et al (2015)
 
-![](index_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
-
 ---
 
 ## Tipping points: empirical examples
 
 
-![](index_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/cv_dai-1.png)&lt;!-- --&gt;
+
+Dai et al (2015)
+
+---
+
+## Critical-speeding up?
+
+
+\[ dX_t = X_t \frac{r}{\beta} \left( \frac{X_t}{\beta A} -1 \right) \left(1 - \frac{X_t}{\beta C} \right) dt + \sigma dB_t \]
+
+- Carrying capacity `\(C\)`, Allee threshold `\(A\)`
+- available territory `\(\beta\)`
+
+![](index_files/figure-html/watson2019-1.png)&lt;!-- --&gt;
+
+[Titus et al (2019)](https://arxiv.org/abs/1901.08084)
+
+
+---
+
+# Limits of Prediction
+
+---
+
+# Limits to prediction
+
+![](index_files/figure-html/arima-1.png)&lt;!-- --&gt;
+
+
+---
+
+![](index_files/figure-html/model_forecast-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -226,20 +270,41 @@ Dai et al (2015)
 
 
 ---
+layout: false
+background-image: url(../image-library/noaa/noaa_fisheries.jpg)
+background-position: center
+background-size: 130%
+class: center, top
+
+---
+layout: true
+background-color: #fdf6e3
+class: center, top
+
+---
+
+# MSY &amp; Constant Escapement
+
+![](index_files/figure-html/msy-1.png)&lt;!-- --&gt;
+
+
+--
+
+`$$\frac{dN}{dt} = \underbrace{r N \left(1 - \frac{N}{K} \right)}_{f(N)} - H$$`
+`$$H_{\text{MSY}} = f(N) = r K / 4, \phantom S B_{\text{MSY}} = K/2$$`
+
+Schaefer 1954; Clark 1973
+
+---
+
 
 ## Decisions Under Uncertainty: does it matter?
 
-.pull-left[
 
-![](index_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
-] 
+![](index_files/figure-html/reed1979-1.png)&lt;!-- --&gt;
 
-.pull-right[
+Reed 1979
 
-![](index_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
-
--- Reed 1979
-]
 
 
 ---
@@ -247,7 +312,7 @@ Dai et al (2015)
 ## Paradox of Measurement Uncertainty
 
 
-![](index_files/figure-html/unnamed-chunk-12-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/clark1987-1.png)&lt;!-- --&gt;
 
 Clark &amp; Kirkwood, 1987
 
@@ -256,33 +321,43 @@ Clark &amp; Kirkwood, 1987
 ## Paradox of Measurement Uncertainty
 
 
-![](index_files/figure-html/unnamed-chunk-13-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/sethi2005-1.png)&lt;!-- --&gt;
+
+Sethi et al (2005)
+
+---
+
+![](index_files/figure-html/jetstream-1.png)&lt;!-- --&gt;
+
+
 
 
 ---
 
-![](index_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/pomdp_policies-1.png)&lt;!-- --&gt;
 
-
+Memarzadeh &amp; Boettiger (2019)
 ---
 
 
-![](index_files/figure-html/unnamed-chunk-15-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/pomdp_sims-1.png)&lt;!-- --&gt;
 
 
 ---
 
 # Opportunities and Pitfalls
 
+---
+
 
 Relaxing structural assumptions of the model (GP, neural net, etc)
 
 
 
+
 ---
 
-
-Notes:
+Abstract:
 
 &gt; Epistemic uncertainty limits our ability to describe, understand, predict, and manage the spatio-temporal dynamics of ecological systems.  Crucially, complex distributions underlie ecological processes at all levels of organization.  Why and how does variation arise and propagate (in space, time, among individuals) and how much variation do we expect? A deeper understanding of ecological variation will help to identify the limits and the uncertainties of ecological predictions.  How can information theoretic approaches be used effectively to glean knowledge from noisy and limited data?
     </textarea>

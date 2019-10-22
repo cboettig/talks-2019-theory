@@ -130,7 +130,7 @@ class: center, top
 
 # Stochastic Phenomena: Quasi-cycles
 
-```{r }
+```{r quasicycles}
 read_csv("data/quasicycles.csv") %>%
   gather(species, population, -t, -sigma) %>%
   mutate(sigma = as.factor(sigma)) %>%
@@ -147,7 +147,7 @@ Nisbet & Gurney 1976
 ---
 
 # Stochastic Phenomena: Quasi-cycles
-```{r}
+```{r bjornstad2004}
 img <- image_read("../image-library/published/resonance-bjornstad2004.png") %>% image_transparent("white")
 
 ggplot() + 
@@ -164,7 +164,7 @@ ggplot() +
 
 $$X_{t+1} = X_t + \underbrace{X_t r \left(1 -\frac{X_t}{K} \right)}_{\textrm{ growth, } g(X_t)}  - \underbrace{\frac{a X_t ^ Q}{X_t^ Q + H ^ Q}}_{\textrm{consumption, } c(X_t)} + \xi_t,$$
 
-```{r noisy_switch}
+```{r noisy_switchA}
 p <- list(r = .5, K = 2, Q = 5, H = .38, sigma = .04, a = 0.245, N = 1e4)
 theory <- tibble(x = seq(0,2, length.out = 100)) %>%
   mutate(growth = x * p$r * (1 - x / p$K), 
@@ -187,7 +187,7 @@ May 1977
 
 $$X_{t+1} = X_t + \underbrace{X_t r \left(1 -\frac{X_t}{K} \right)}_{\textrm{ growth, } g(X_t)}  - \underbrace{\frac{a X_t ^ Q}{X_t^ Q + H ^ Q}}_{\textrm{consumption, } c(X_t)} + \xi_t,$$ß
 
-```{r}
+```{r potential}
 theory %>%
   ggplot(aes(x, potential)) + 
   geom_line(col=pal[1], lwd=2) + 
@@ -203,7 +203,7 @@ theory %>%
 # Stochastic Phenomena: Noisy switch
 
 
-```{r}
+```{r noisy_switch}
 read_csv("data/noisy_switch.csv")  %>%
   ggplot(aes(t,x)) + 
   geom_line(col = pal[[1]]) 
@@ -212,7 +212,7 @@ read_csv("data/noisy_switch.csv")  %>%
 
 ---
 
-```{r}
+```{r keeling2001}
 img <- image_read("../image-library/published/switching-keeling2001.png") %>%
   image_transparent("white")
 ggplot() + 
@@ -272,7 +272,7 @@ Levins: \sigma^2 = N\frac{e}{c}$, Logistic: $\sigma^2 = K$
 
 
 
-```{r}
+```{r dai_sim}
 tipping <- read_csv("data/tipping.csv") 
 scientific <- function(l) {
     if(max(l, na.rm=TRUE) < 1e3) return(l)
@@ -296,7 +296,7 @@ tipping %>%
 
 ---
 
-```{r}
+```{r dai_sim_stats}
 tipping %>%
   dplyr::select(-x) %>%
   dplyr::rename("autocorrelation" = autocorrelation, "variance" = variance) %>%
@@ -311,7 +311,7 @@ tipping %>%
 
 ## Tipping points: empirical examples
 
-```{r}
+```{r pop_dai2015}
 img <- image_read("../image-library/published/pop-dai2015.png") %>% image_transparent("white")
 ggplot() + 
   annotation_raster(img, 
@@ -325,7 +325,7 @@ Dai et al (2015)
 ## Tipping points: empirical examples
 
 
-```{r}
+```{r cv_dai}
 img <- image_read("../image-library/published/cv-dai2015.png") %>%
   image_transparent("white")
 
@@ -346,7 +346,7 @@ Dai et al (2015)
 - Carrying capacity $C$, Allee threshold $A$
 - available territory $\beta$
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r watson2019, echo=FALSE, message=FALSE, warning=FALSE}
 library(tidyverse)
 dx <- function(x,  β = .3, r = 1, A = 1.5, C = 2.5){
   x * (r/β) * (x / (β*A)-1)*(1 - x / (β*C))
@@ -372,8 +372,36 @@ ggplot(df, aes(x,dx, color = β)) + geom_line(lwd=1) +
 
 # Limits of Prediction
 
+---
+
+# Limits to prediction
+
+```{r arima}
+arima_forecast <- readr::read_csv("data/arima_forecast.csv.gz")
+train <- arima_forecast %>% filter(t < 2000) 
+test <- arima_forecast %>% filter(t > 2000) 
+train %>%
+  ggplot(aes(t)) + 
+  geom_line(aes(y=x)) +
+  geom_line(aes(y=pred), lwd = 1, lty = 3, col = "red", data = test) + 
+  geom_ribbon(aes(y=pred, ymin=pred-se, ymax=pred+se), 
+              alpha = 0.4, fill = "red", data = test)  + 
+  geom_line(aes(y=x), data = test, lty = 2, col="blue") +
+  xlim(0,3000) + ylab("x")
+```
 
 
+---
+
+```{r model_forecast}
+model_forecast <- readr::read_csv("data/model_forecast.csv.gz")
+training_data <- arima_forecast %>% select(t,x) %>% mutate(reps="1") %>% filter(t < 2000)
+model_forecast %>% 
+  ggplot(aes(t,x)) +
+  geom_line(aes(group = interaction(reps, set), col = set), alpha = .1) + 
+  geom_line(data = training_data) + 
+  facet_wrap(~set)
+```
 
 ---
 
@@ -432,7 +460,7 @@ Schaefer 1954; Clark 1973
 ## Decisions Under Uncertainty: does it matter?
 
 
-```{r}
+```{r reed1979}
 img <- image_read("../image-library/published/reed1979.png") %>% image_transparent("white")
 ggplot() + 
   annotation_raster(img, 
@@ -448,7 +476,7 @@ Reed 1979
 ## Paradox of Measurement Uncertainty
 
 
-```{r}
+```{r clark1987}
 img <- image_read("../image-library/published/clark1987.png")%>% image_transparent("white")
 ggplot() + 
   annotation_raster(img, 
@@ -462,7 +490,7 @@ Clark & Kirkwood, 1987
 ## Paradox of Measurement Uncertainty
 
 
-```{r}
+```{r sethi2005}
 img <- image_read("../image-library/published/sethi2005.png")%>% image_transparent("white")
 ggplot() + 
   annotation_raster(img, 
@@ -473,7 +501,7 @@ Sethi et al (2005)
 
 ---
 
-```{r fig.height=8}
+```{r jetstream, fig.height=8}
 img <- image_read("../image-library/img/jetstream.jpg")
 p1 <- ggplot() + 
   annotation_raster(img, 
@@ -491,8 +519,8 @@ p1 + p2 + plot_layout(ncol = 1)
 
 ---
 
-```{r fig.height=7}
-policies_w_priors <- vroom::vroom("data/policies_w_priors.csv")
+```{r pomdp_policies, fig.height=7}
+policies_w_priors <- readr::read_csv("data/policies_w_priors.csv")
 
 policies_w_priors %>% select(-harvest) %>%
   gather(panel, value, -state, -policy) %>%
@@ -510,8 +538,8 @@ Memarzadeh & Boettiger (2019)
 ---
 
 
-```{r fig.height=9}
-vroom::vroom("data/pomdp_sims.csv", col_types = "inicnnn")  %>%
+```{r pomdp_sims, fig.height=9}
+readr::read_csv("data/pomdp_sims.csv", col_types = "inicnnn")  %>%
   select(-value) %>%
   #filter(method != "MSY") %>%
   filter(sigma_g %in% c("0.02", "0.15")) %>%
@@ -547,8 +575,8 @@ Relaxing structural assumptions of the model (GP, neural net, etc)
 
 
 
----
 
+---
 
 Abstract:
 
