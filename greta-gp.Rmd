@@ -1,0 +1,55 @@
+---
+output: github_document
+
+---
+
+```{r}
+arima_forecast <- readr::read_csv("data/arima_forecast.csv.gz")
+train <- arima_forecast %>% filter(t < 2000) 
+wide <- select(train, x) %>% as.matrix() 
+n <- dim(wide)[1]
+x_t1 <- wide[-1,]
+x_t <- wide[-n,] 
+
+
+y <- x_t1
+x <- x_t
+```
+
+
+```{r}
+x_plot <- seq(0, 200, length.out = 200)
+
+library(greta)
+library(greta.gp)
+
+# hyperparameters
+rbf_var <- lognormal(0, 1)
+rbf_len <- lognormal(0, 1)
+obs_sd <- lognormal(0, 1)
+
+# kernel & GP
+kernel <- rbf(rbf_len, rbf_var) + bias(1)
+f <- gp(x, kernel)
+
+# likelihood
+distribution(y) <- normal(f, obs_sd)
+
+# prediction
+f_plot <- project(f, x_plot)
+# fit the model by Hamiltonian Monte Carlo
+m <- model(f_plot)
+draws <- mcmc(m)
+```
+
+```{r}
+# plot 200 posterior samples
+plot(y ~ x, pch = 16, col = grey(0.4), xlim = c(0, 10), ylim = c(-2.5, 2.5))
+for (i in 1:200) {
+  lines(draws[[1]][i, ] ~ x_plot,
+        lwd = 2,
+        col = rgb(0.7, 0.1, 0.4, 0.1))  
+}
+```
+
+

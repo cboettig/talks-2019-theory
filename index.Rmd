@@ -100,6 +100,7 @@ class: center, top
 
 # Decisions Under Uncertainty
 
+# Limits of Prediction
 
 ---
 
@@ -125,6 +126,8 @@ class: center, top
 # Noise as Information
 
 # Decisions despite Uncertainty
+
+# Limits of Prediction
 
 ---
 
@@ -237,6 +240,8 @@ switching dynamics between two regimes, reproduced from Keeling et al 2001
 # *Noise as Information*
 
 # Decisions Under Uncertainty
+
+# Limits of Prediction
 
 ---
 
@@ -368,40 +373,6 @@ ggplot(df, aes(x,dx, color = β)) + geom_line(lwd=1) +
 [Titus et al (2019)](https://arxiv.org/abs/1901.08084)
 
 
----
-
-# Limits of Prediction
-
----
-
-# Limits to prediction
-
-```{r arima}
-arima_forecast <- readr::read_csv("data/arima_forecast.csv.gz")
-train <- arima_forecast %>% filter(t < 2000) 
-test <- arima_forecast %>% filter(t > 2000) 
-train %>%
-  ggplot(aes(t)) + 
-  geom_line(aes(y=x)) +
-  geom_line(aes(y=pred), lwd = 1, lty = 3, col = "red", data = test) + 
-  geom_ribbon(aes(y=pred, ymin=pred-se, ymax=pred+se), 
-              alpha = 0.4, fill = "red", data = test)  + 
-  geom_line(aes(y=x), data = test, lty = 2, col="blue") +
-  xlim(0,3000) + ylab("x")
-```
-
-
----
-
-```{r model_forecast}
-model_forecast <- readr::read_csv("data/model_forecast.csv.gz")
-training_data <- arima_forecast %>% select(t,x) %>% mutate(reps="1") %>% filter(t < 2000)
-model_forecast %>% 
-  ggplot(aes(t,x)) +
-  geom_line(aes(group = interaction(reps, set), col = set), alpha = .1) + 
-  geom_line(data = training_data) + 
-  facet_wrap(~set)
-```
 
 ---
 
@@ -414,6 +385,7 @@ model_forecast %>%
 
 # *Decisions Under Uncertainty*
 
+# Limits of Prediction
 
 ---
 layout: false
@@ -563,23 +535,84 @@ readr::read_csv("data/pomdp_sims.csv", col_types = "inicnnn")  %>%
   ylab("Mean biomass")
 ```
 
+---
+
+# Noise the Nusiance
+
+# Stochastic Phenomena
+
+# Noise as Information
+
+# Decisions Under Uncertainty
+
+# *Limits of Prediction*
+---
+
+# Limits of Prediction
+
+```{r train}
+arima_forecast <- readr::read_csv("data/arima_forecast.csv.gz")
+train <- arima_forecast %>% filter(t < 2000) 
+test <- arima_forecast %>% filter(t > 2000) 
+train %>%
+  ggplot(aes(t)) + 
+  geom_line(aes(y=x)) +
+  xlim(0,3000) + ylab("x")
+```
+---
+
+# Limits of Prediction
+
+```{r arima_predict}
+train %>%
+  ggplot(aes(t)) + 
+  geom_line(aes(y=x)) +
+  geom_line(aes(y=pred), lwd = 2, lty = 3, col = pal[2], data = test) + 
+  geom_ribbon(aes(y=pred, ymin=pred-se, ymax=pred+se), 
+              alpha = 0.4, fill = pal[2], data = test)  + 
+  xlim(0,3000) + ylab("x")
+```
 
 ---
 
-# Opportunities and Pitfalls
+# Limits of Prediction
+
+```{r arima_predict_fail}
+train %>%
+  ggplot(aes(t)) + 
+  geom_line(aes(y=x)) +
+  geom_line(aes(y=pred), lwd = 2, lty = 3, col = pal[2], data = test) + 
+  geom_ribbon(aes(y=pred, ymin=pred-se, ymax=pred+se), 
+              alpha = 0.4, fill = pal[2], data = test)  + 
+  geom_line(aes(y=x), data = test, lty = 2, lwd = 2, col=pal[1]) +
+  xlim(0,3000) + ylab("x")
+```
 
 ---
 
+## Perfect information:
 
-Relaxing structural assumptions of the model (GP, neural net, etc)
-
-
-
+```{r true_predict}
+model_forecast <- readr::read_csv("data/model_forecast.csv.gz")
+model_forecast %>% 
+  filter(set == "true") %>%
+  ggplot(aes(t,x)) +
+  geom_line(aes(group = interaction(reps, set), col = set), alpha = .1) + 
+  geom_line(data = train)
+```
 
 ---
 
-Abstract:
+## Perfect knowledge of structure 
 
-> Epistemic uncertainty limits our ability to describe, understand, predict, and manage the spatio-temporal dynamics of ecological systems.  Crucially, complex distributions underlie ecological processes at all levels of organization.  Why and how does variation arise and propagate (in space, time, among individuals) and how much variation do we expect? A deeper understanding of ecological variation will help to identify the limits and the uncertainties of ecological predictions.  How can information theoretic approaches be used effectively to glean knowledge from noisy and limited data?
+(MCMC estimate of parameters)
+
+```{r est_predict}
+model_forecast %>% 
+  filter(set == "predicted") %>%
+  ggplot(aes(t,x)) +
+  geom_line(aes(group = interaction(reps, set), col = set), alpha = .3) + 
+  geom_line(data = train)
+```
 
 
