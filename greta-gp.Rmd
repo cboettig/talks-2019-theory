@@ -4,6 +4,7 @@ output: github_document
 ---
 
 ```{r}
+library(tidyverse)
 arima_forecast <- readr::read_csv("data/arima_forecast.csv.gz")
 train <- arima_forecast %>% filter(t < 2000) 
 wide <- select(train, x) %>% as.matrix() 
@@ -12,10 +13,13 @@ x_t1 <- wide[-1,]
 x_t <- wide[-n,] 
 
 
-y <- x_t1
-x <- x_t
+y <- c(0, x_t1)
+x <- c(0, x_t)
 ```
 
+```{r}
+tibble(x=x, y=y) %>% ggplot(aes(x,y)) + geom_point()
+```
 
 ```{r}
 x_plot <- seq(0, 200, length.out = 200)

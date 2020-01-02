@@ -446,7 +446,9 @@ Reed 1979
 
 ---
 
-## Paradox of Measurement Uncertainty
+## Clark & Kirkwood, 1987
+
+> An important tacit assumption in Reed’s analysis, as in the other works referred to above, is that the recruitment level X is known accurately prior to the harvest decision, [...] In the case of fishery resources, the stock level X is almost never known very accurately, owing to the difficulty of observing fish in their natural environment.
 
 
 ```{r clark1987}
@@ -456,11 +458,10 @@ ggplot() +
                     xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf)
 ```
 
-Clark & Kirkwood, 1987
 
 ---
 
-## Paradox of Measurement Uncertainty
+## Sethi et al (2005)
 
 
 ```{r sethi2005}
@@ -470,7 +471,7 @@ ggplot() +
                     xmin=-Inf, xmax=Inf, ymin=-Inf, ymax=Inf)
 ```
 
-Sethi et al (2005)
+
 
 ---
 
@@ -564,6 +565,7 @@ train %>%
 ---
 
 # Limits of Prediction
+
 
 ```{r arima_predict}
 train %>%

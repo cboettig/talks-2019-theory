@@ -4,7 +4,7 @@ linnoise <- function(t,y,p, birth, death, Jacobian, Transition){
 # General form for arbitrary dimensions
 # Args:
 #	t - time
-#	y - statespace, a vector of the d states, followed by d varancies and (d^2-d)/2 covariances
+#	y - statespace, a vector of the d states, followed by d variances and (d^2-d)/2 covariances
 #	p - vector of parameters.
 #	b - user-supplied birth rates, fn of (t,y,p)
 #	d - user-supplied death rates, fn of (t,y,p)
